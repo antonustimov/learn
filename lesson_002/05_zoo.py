@@ -28,6 +28,11 @@ print(zoo)
 
 # выведите на консоль в какой клетке сидит лев (lion) и жаворонок (lark).
 # Номера при выводе должны быть понятны простому человеку, не программисту.
-# TODO здесь ваш код
+a = input()
+if a in zoo :
+    position = str(zoo.index(a) + 1)
+    print(a + " sit in cage number " + position)
+
+else : print("this animal is not in zoo")
 
 
