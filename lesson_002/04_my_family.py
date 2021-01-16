@@ -12,8 +12,11 @@ my_family_height = [["mom", 168], ["son", 150], ['father', 170]]
 
 member = my_family[2]
 height = str(my_family_height[2][1])
+total_height = my_family_height[0][1] + my_family_height[1][1] + my_family_height[2][1]
 
 print("my " + member + " height is " + height + " sm")
+
+print("my family total height is " + str(total_height))
 
 
 # Выведите на консоль рост отца в формате
