@@ -22,7 +22,7 @@ print(zoo)
 
 # уберите слона
 #  и выведите список на консоль
-
+zoo.remove('elephant')
 
 print(zoo)
 
