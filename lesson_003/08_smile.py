@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 # (определение функций)
+import random
+
 import simple_draw as sd
 sd.resolution = (1200, 600)
 
@@ -19,14 +21,13 @@ def smile(coordinates, color):
                      sd.get_point(x + 11, y - 40),sd.get_point(x + 25, y - 35), sd.get_point(x + 40, y - 25))
     sd.lines(point_list=mouth_points,color=sd.COLOR_BLACK, width=4)
 
+for _ in range(10):
+    x = random.randint(50, 1150)
+    y = random.randint(50, 650)
+    coordinates = sd.get_point(x, y)
+    color = sd.COLOR_YELLOW
+    smile(coordinates, color)
 
-
-x, y = 500, 300
-coordinates = sd.get_point(x, y)
-
-color = sd.COLOR_RED
-
-smile(coordinates, color)
 
 
 
