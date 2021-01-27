@@ -22,7 +22,7 @@ rainbow_colors = (sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN
 # поэкспериментировать с параметрами, что бы было красиво
 step = 10
 for i in range(7):
-    center = sd.get_point(600, -300)
+    center = sd.get_point(600, -250)
     color = rainbow_colors[i]
     sd.circle(center_position=center, radius=700 + step, color=color, width=10)
     step += 10

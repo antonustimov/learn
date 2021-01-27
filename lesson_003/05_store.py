@@ -53,7 +53,6 @@ for name_of_good in goods:
     for i in store[code_of_good]:
         kolichestvo += i['quantity']
         price += i['price']
-
     print(name_of_good, "- ", kolichestvo, ' pc. Total cost: ', price)
 
 
