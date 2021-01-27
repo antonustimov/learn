@@ -82,7 +82,6 @@ length = 200
 # sd.line()
 # Результат решения см lesson_004/results/exercise_01_shapes.jpg
 
-# TODO здесь ваш код
 
 # Часть 1-бис.
 # Попробуйте прикинуть обьем работы, если нужно будет внести изменения в этот код.
@@ -101,28 +100,33 @@ length = 200
 #
 # Не забудте в этой общей функции придумать, как устранить разрыв
 #   в начальной/конечной точках рисуемой фигуры (если он есть)
-number_of_angles = int(input("Type number of angles from 3 to 8 pls: "))
+
+#
+# тут блок для ввода чисел от пользлвателяЖ
+number_of_angles = int(input("Type number of angles from 3 to 20 pls: "))
 while number_of_angles < 3:
     print("You enter wrong data! Please try again")
-    number_of_angles = int(input("Type number of angles from 3 to 8 pls: "))
+    number_of_angles = int(input("Type number of angles from 3 to 20 pls: "))
 
 side_length = int(input("Type length of each side pls: "))
-
-
-
-
-def shape(number_of_angles, start_point, angle_0, length):
-    side_angle = round(360 / number_of_angles)
+# функция рисования любых многоугольников. пользователь вводит количество углов и
+# длину сторон. Есть погрешность связанная с тем, что библиотека SimpleDraw оперирует только
+# углами в целых числах
+def shape(number_of_angles, start_point_0, angle_0, length):
+    side_angle = 360 / number_of_angles
     next_angle = angle_0
+    start_point = start_point_0
     print(angle_0)
-    if next_angle > 360:
+    if next_angle > 360 - side_angle:
+        v_end = sd.line(start_point=start_point, end_point=point_0, width=3)
         return
-    v_1 = sd.get_vector(start_point=start_point, angle=next_angle, length=length)
+    v_1 = sd.get_vector(start_point=start_point, angle=next_angle, length=length, width=3)
     v_1.draw()
     next_angle += side_angle
-    shape(number_of_angles=number_of_angles, start_point=v_1.end_point, angle_0=next_angle, length=side_length)
+    shape(number_of_angles=number_of_angles, start_point_0=v_1.end_point, angle_0=next_angle, length=side_length)
 
-shape(number_of_angles=number_of_angles, start_point=sd.get_point(600, 100), angle_0=20, length=side_length)
+
+print(shape(number_of_angles=number_of_angles, start_point_0=point_0, angle_0=20, length=side_length))
 
 
 
