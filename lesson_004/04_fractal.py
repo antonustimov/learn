@@ -11,12 +11,14 @@ import simple_draw as sd
 def draw_branches(start_point, angle, length):
     if length < 10:
         return
-    v_1 = sd.get_vector(start_point=start_point,length=length, angle=angle + 30, width=2)
+    angle_shift = sd.random_number(30 - 0.40 * 30, 30 + 0.40 * 30)
+    length_shift = sd.random_number(75 - 0.2 * 75, 75 + 0.2 * 75) / 100
+    v_1 = sd.get_vector(start_point=start_point, length=length, angle=angle + angle_shift, width=2)
     v_1.draw(sd.COLOR_GREEN)
-    v_2 = sd.get_vector(start_point=start_point, length=length, angle=angle - 30, width=2)
-    v_2.draw(sd.COLOR_RED)
-    draw_branches(start_point=v_1.end_point, length=length * 0.75, angle=angle + 30)
-    draw_branches(start_point=v_2.end_point, length=length * 0.75, angle=angle - 30)
+    v_2 = sd.get_vector(start_point=start_point, length=length, angle=angle - angle_shift, width=2)
+    v_2.draw(sd.COLOR_DARK_GREEN)
+    draw_branches(start_point=v_1.end_point, length=length * length_shift, angle=angle + 30)
+    draw_branches(start_point=v_2.end_point, length=length * length_shift, angle=angle - 30)
 # 2) Сделать draw_branches рекурсивной
 # - добавить проверку на длину ветвей, если длина меньше 10 - не рисоватьr
 # - вызывать саму себя 2 раза из точек-концов нарисованных ветвей,
