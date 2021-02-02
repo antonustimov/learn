@@ -8,16 +8,24 @@ import simple_draw as sd
 # - угол рисования,
 # - длина ветвей,
 # Отклонение ветвей от угла рисования принять 30 градусов,
-
+def draw_branches(start_point, angle, length):
+    if length < 10:
+        return
+    v_1 = sd.get_vector(start_point=start_point,length=length, angle=angle + 30, width=2)
+    v_1.draw(sd.COLOR_GREEN)
+    v_2 = sd.get_vector(start_point=start_point, length=length, angle=angle - 30, width=2)
+    v_2.draw(sd.COLOR_RED)
+    draw_branches(start_point=v_1.end_point, length=length * 0.75, angle=angle + 30)
+    draw_branches(start_point=v_2.end_point, length=length * 0.75, angle=angle - 30)
 # 2) Сделать draw_branches рекурсивной
-# - добавить проверку на длину ветвей, если длина меньше 10 - не рисовать
+# - добавить проверку на длину ветвей, если длина меньше 10 - не рисоватьr
 # - вызывать саму себя 2 раза из точек-концов нарисованных ветвей,
 #   с параметром "угол рисования" равным углу только что нарисованной ветви,
 #   и параметром "длинна ветвей" в 0.75 меньшей чем длина только что нарисованной ветви
 
 # 3) первоначальный вызов:
-# root_point = get_point(300, 30)
-# draw_bunches(start_point=root_point, angle=90, length=100)
+root_point = sd.get_point(300, 30)
+draw_branches(start_point=root_point, angle=90, length=100)
 
 # Пригодятся функции
 # sd.get_point()
