@@ -9,7 +9,7 @@ import simple_draw as sd
 # - длина ветвей,
 # Отклонение ветвей от угла рисования принять 30 градусов,
 def draw_branches(start_point, angle, length):
-    if length < 10:
+    if length < 5:
         return
     angle_shift = sd.random_number(30 - 0.40 * 30, 30 + 0.40 * 30)
     length_shift = sd.random_number(75 - 0.2 * 75, 75 + 0.2 * 75) / 100
