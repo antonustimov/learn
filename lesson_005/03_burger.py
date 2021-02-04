@@ -15,4 +15,36 @@
 # Создать рецепт своего бургера, по вашему вкусу.
 # Если не хватает инградиентов - создать соответствующие функции в модуле my_burger
 
-# TODO здесь ваш код
+
+import my_burger
+print('Lets make tasty burger!')
+burger_consists = [
+    my_burger.bun(),
+    my_burger.patty(),
+    my_burger.tomato(),
+    my_burger.cucumber(),
+    my_burger.cheese(),
+    my_burger.sause()
+    ]
+print('Good appetite!!!')
+
+print('our burger consists from: ', burger_consists)
+
+
+print('Now it"s time fo DOUBLE CHEESEBURGER!!!')
+
+cheeseburger_consists = [
+    my_burger.bun(),
+    my_burger.patty(),
+    my_burger.cheese(),
+    my_burger.patty(),
+    my_burger.cheese(),
+    my_burger.tomato(),
+    my_burger.cucumber(),
+    my_burger.cheese(),
+    my_burger.sause()
+    ]
+print('EAT IT FASTER WHILE IT STILL HOT!!!')
+
+print('our cheeseburger consists from: ', cheeseburger_consists)
+
