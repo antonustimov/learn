@@ -32,8 +32,8 @@ residents.extend(b_1.folks)
 residents.extend(c_1.folks)
 residents.extend(d_1.folks)
 
-print(type(residents))
-print(residents)
+print('на районе обитают :', ', '.join(residents))
+
 
 
 
