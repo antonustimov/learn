@@ -9,7 +9,7 @@ from random import randint
 
 _number = set()
 _number_list = []
-
+sys_answer = dict()
 
 
 def put_number():
@@ -21,10 +21,8 @@ def put_number():
         _number_list.append(_number_list.pop(0))
 
 
-put_number()
 def check_number(user_input):
     user_input_list = []
-    sys_answer = dict()
     cows = 0
     bulls = 0
     for i in user_input:
@@ -36,14 +34,10 @@ def check_number(user_input):
         if user_input_list[i] == _number_list[i]:
             bulls += 1
     sys_answer = {'bulls': bulls, 'cows': cows - bulls}
+
     return sys_answer
 
 
 
 
 
-print(_number_list)
-print(check_number(user_input='1234'))
-print(check_number(user_input='2345'))
-print(check_number(user_input='3456'))
-print(check_number(user_input='4567'))
