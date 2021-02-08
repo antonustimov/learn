@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import simple_draw as sd
-sd.resolution = (1200, 600)
+sd.resolution = (1200, 800)
 
 # На основе кода из практической части реализовать снегопад:
 # - создать списки данных для отрисовки N снежинок
@@ -9,7 +9,38 @@ sd.resolution = (1200, 600)
 # - создать список рандомных длинн лучей снежинок (от 10 до 100) и пусть все снежинки будут разные
 
 N = 20
+snow_start = []
+snow_length = []
+y = 800 + sd.random_number(0, 200)
+for i in range(N):
+    x = sd.random_number(0, 1200)
+    snow_start.append(x)
+    lenght = sd.random_number(10, 100)
+    snow_length.append(lenght)
 
+ran = sd.random_number(0, 19)
+
+while True:
+    sd.clear_screen()
+    point = sd.get_point(snow_start[ran], y)
+    sd.snowflake(center=point, length=snow_length[ran])
+    sd.sleep(0.1)
+    sd.snowflake(center=point, length=snow_length[ran], color=sd.background_color)
+    y -= 10
+    if y < 50:
+        sd.snowflake(center=point, length=snow_length[ran])
+        break
+
+
+    if sd.user_want_exit():
+        break
+
+# реализовать падение одной снежинки из произвольного места экрана
+
+# реализовать падение одной снежинки с ветром - смещение в сторону
+
+
+sd.pause()
 # Пригодятся функции
 # sd.get_point()
 # sd.snowflake()
@@ -17,40 +48,15 @@ N = 20
 # sd.random_number()
 # sd.user_want_exit()
 
-
-def snow():
-    x = sd.random_number(0, 1100)
-    y = 600
-
-
-    length = sd.random_number(20, 70)
-    f_a = sd.random_number(2, 8) / 10
-    f_b = sd.random_number(20, 70) / 100
-    f_c = sd.random_number(30, 75)
-
-
-    while True:
-        # sd.clear_screen()
-
-        sd.snowflake(center=sd.get_point(x, y), length=length, factor_a=f_a, factor_b=f_b, factor_c=f_c)
-        pass
-        pass
-        sd.sleep(0.1)
-        sd.snowflake(center=sd.get_point(x, y), length=length, color=sd.background_color,
-                     factor_a=f_a, factor_b=f_b, factor_c=f_c)
-        y -= 50
-
-        if y < length:
-            sd.snowflake(center=sd.get_point(x, y), length=length, factor_a=f_a, factor_b=f_b, factor_c=f_c)
-            y = 600
-            x = sd.random_number(0, 1100)
-            snow()
-        if sd.user_want_exit():
-            break
-
-snow()
-
-
+# TODO здесь ваш код
+while True:
+    # sd.clear_screen()
+    pass
+    pass
+    pass
+    # sd.sleep(0.1)
+    if sd.user_want_exit():
+        break
 
 sd.pause()
 

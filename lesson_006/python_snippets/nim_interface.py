@@ -17,7 +17,7 @@ while True:
     cprint('Текущая позиция:', color='yellow', on_color='on_grey')
     cprint(stones_position(), color='red')
     color = 'blue' if counter == 1 else 'green'
-    cprint('Ходит игрок номер'.format(counter), color=color)
+    cprint('Ходит игрок номер ' + str(counter), color=color)
     cprint('Из какой кучки берем?', color=color)
     stack_number = int(input()) - 1
     cprint('Сколько берем?', color=color)

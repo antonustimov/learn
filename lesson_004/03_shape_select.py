@@ -24,15 +24,15 @@ def shape(number_of_angles, start_point_0, angle_0, length):
     start_point = start_point_0
     print(angle_0)
     if next_angle > 360 - side_angle:
-        v_end = sd.line(start_point=start_point, end_point=point_0, width=3)
+        v_end = sd.line(start_point=start_point, end_point=point_0, color=sd.COLOR_RED, width=3)
         return
     v_1 = sd.get_vector(start_point=start_point, angle=next_angle, length=length, width=3)
-    v_1.draw()
+    v_1.draw(color=sd.COLOR_RED)
     next_angle += side_angle
     shape(number_of_angles=number_of_angles, start_point_0=v_1.end_point, angle_0=next_angle, length=side_length)
 
 
-print(shape(number_of_angles=number_of_angles, start_point_0=point_0, angle_0=20, length=side_length))
+print(shape(number_of_angles=number_of_angles, start_point_0=point_0, angle_0=0, length=side_length))
 # Запросить у пользователя желаемую фигуру посредством выбора из существующих
 #   вывести список всех фигур с номерами и ждать ввода номера желаемой фигуры.
 # и нарисовать эту фигуру в центре экрана
