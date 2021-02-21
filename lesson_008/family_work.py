@@ -166,11 +166,31 @@ class Wife(Human):
         elif home.dirt_in_house > 0:
             home.dirt_in_house -= home.dirt_in_house
 
+class Child(Human):
+    def __init__(self, name):
+        self.name = name
+        super().__init__()
+
+    def __str__(self):
+        return '{} :'.format(self.name) + super().__str__()
+
+    def act(self):
+        if self.satiety <= 20:
+            self.eat()
+        else:
+            self.sleep()
+
+    def eat(self):
+        home.eat_in_refrigerator -= 10
+        self.satiety += 10
+    def sleep(self):
+        self.satiety -= 10
+
 
 home = House()
 serge = Husband(name='Сережа')
 masha = Wife(name='Маша')
-
+kolya = Child(name='Коля')
 for day in range(366):
     cprint('================== День {} =================='.format(day), color='grey')
     home.dirt_in_house += 5
@@ -181,11 +201,16 @@ for day in range(366):
     elif masha.satiety <= 0:
         cprint('{} УМЕРЛА С ГОЛОДУ!!!'.format(masha.name), color='red')
         break
+    elif masha.satiety <= 0:
+        cprint('{} УМЕР С ГОЛОДУ!!!'.format(masha.name), color='red')
+        break
 
     serge.act()
     masha.act()
+    kolya.act()
     cprint(serge, color='cyan')
     cprint(masha, color='magenta')
+    cprint(kolya, color='magenta')
     cprint(home, color='yellow')
 
 #
