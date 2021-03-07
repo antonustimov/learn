@@ -34,13 +34,12 @@ class TextAnalyzer:
     def __init__(self, file_name):
         self.file_name = file_name
         self.unsorted_result = {}
-        self.sorted_result = {}
+        self.sorted_result = []
 
     def unzip_file(self):
         pass
 
     def analyze_text(self):
-        letter_count = 0
         if self.file_name.endswith('.zip'):
             self.unzip_file()
         with open(self.file_name, 'r', encoding='cp1251') as file:
@@ -51,13 +50,29 @@ class TextAnalyzer:
                             self.unsorted_result[letter] += 1
                         else:
                             self.unsorted_result[letter] = 1
-            pprint(self.unsorted_result)
+
+    def sort_results(self):
+        for letter, count in self.unsorted_result.items():
+            self.sorted_result.append([count, letter])
+            self.sorted_result.sort(reverse=True)
+
+
+        # pprint(self.sorted_result)
 
 
     def print_reult(self):
-        pass
+        print('+{txt:-^30}+'.format(txt='+'))
+        print('|{txt: ^14}|'.format(txt='Буква'), '{txt: ^14}|'.format(txt='частота'))
+        print('+{txt:-^30}+'.format(txt='+'))
+        for i in self.sorted_result:
+            letter = i[1]
+            count = i[0]
+            print('|{txt: ^14}|'.format(txt=letter),
+                  '{txt: ^14}|'.format(txt=count))
+            print('+{txt:-^30}+'.format(txt='+'))
 
 
 analyze = TextAnalyzer(file_name ='/Users/ant__on/PycharmProjects/learn/lesson_009/python_snippets/voyna-i-mir.txt')
 analyze.analyze_text()
+analyze.sort_results()
 analyze.print_reult()
