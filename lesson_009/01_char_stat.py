@@ -26,6 +26,7 @@
 #  - по алфавиту по возрастанию
 #  - по алфавиту по убыванию
 # Для этого пригодится шаблон проектирование "Шаблонный метод" см https://goo.gl/Vz4828
+import zipfile
 from pprint import pprint
 
 
@@ -37,7 +38,10 @@ class TextAnalyzer:
         self.sorted_result = []
 
     def unzip_file(self):
-        pass
+        zfile = zipfile.ZipFile(self.file_name, 'r')
+        for filename in zfile.namelist():
+            zfile.extract(filename)
+        self.file_name = filename
 
     def analyze_text(self):
         if self.file_name.endswith('.zip'):
@@ -61,18 +65,25 @@ class TextAnalyzer:
 
 
     def print_reult(self):
+        """шапка таблицы"""
         print('+{txt:-^30}+'.format(txt='+'))
         print('|{txt: ^14}|'.format(txt='Буква'), '{txt: ^14}|'.format(txt='частота'))
         print('+{txt:-^30}+'.format(txt='+'))
+        """тело таблицы, подставлены значения из списка"""
+        total_letters = 0
         for i in self.sorted_result:
             letter = i[1]
             count = i[0]
+            total_letters += count
             print('|{txt: ^14}|'.format(txt=letter),
                   '{txt: ^14}|'.format(txt=count))
             print('+{txt:-^30}+'.format(txt='+'))
+        """закрывающая часть таблицы и вывод общей суммы"""
+        print('+{txt:-^30}+'.format(txt='+'))
+        print('|{txt: ^14}|'.format(txt='Итого'), '{txt: ^14}|'.format(txt=total_letters))
+        print('+{txt:-^30}+'.format(txt='+'))
 
-
-analyze = TextAnalyzer(file_name ='/Users/ant__on/PycharmProjects/learn/lesson_009/python_snippets/voyna-i-mir.txt')
+analyze = TextAnalyzer(file_name ='/Users/ant__on/PycharmProjects/learn/lesson_009/python_snippets/voyna-i-mir.txt.zip')
 analyze.analyze_text()
 analyze.sort_results()
 analyze.print_reult()
