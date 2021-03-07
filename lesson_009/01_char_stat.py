@@ -27,7 +27,6 @@
 #  - по алфавиту по убыванию
 # Для этого пригодится шаблон проектирование "Шаблонный метод" см https://goo.gl/Vz4828
 import zipfile
-from pprint import pprint
 
 
 class TextAnalyzer:
@@ -59,12 +58,9 @@ class TextAnalyzer:
         for letter, count in self.unsorted_result.items():
             self.sorted_result.append([count, letter])
             self.sorted_result.sort(reverse=True)
+            # self.sorted_result.sort(reverse=False)
 
-
-        # pprint(self.sorted_result)
-
-
-    def print_reult(self):
+    def print_result(self):
         """шапка таблицы"""
         print('+{txt:-^30}+'.format(txt='+'))
         print('|{txt: ^14}|'.format(txt='Буква'), '{txt: ^14}|'.format(txt='частота'))
@@ -95,7 +91,7 @@ class TextAnalyzer:
                 count = i[0]
                 total_letters += count
                 file.write('|{txt: ^14}|'.format(txt=letter) +
-                      '{txt: ^15}|'.format(txt=count) + '\n')
+                           '{txt: ^15}|'.format(txt=count) + '\n')
                 file.write('+{txt:-^30}+'.format(txt='+') + '\n')
             """закрывающая часть таблицы и вывод общей суммы"""
             file.write('+{txt:-^30}+'.format(txt='+') + '\n')
@@ -103,14 +99,14 @@ class TextAnalyzer:
             file.write('+{txt:-^30}+'.format(txt='+') + '\n')
 
 
-analyze = TextAnalyzer(file_name ='/Users/ant__on/PycharmProjects/learn/lesson_009/python_snippets/voyna-i-mir.txt.zip')
+analyze = TextAnalyzer(file_name='/Users/ant__on/PycharmProjects/learn/lesson_009/python_snippets/voyna-i-mir.txt.zip')
 analyze.analyze_text()
 analyze.sort_results()
 
 user_choice = int(input("Нажмите '1' чтоб увидеть результат на экране, или "
-                    "нажмите '2' чтоб сохранить результат в файл"))
+                        "нажмите '2' чтоб сохранить результат в файл"))
 if user_choice == 1:
-    analyze.print_reult()
+    analyze.print_result()
 elif user_choice == 2:
     analyze.write_to_file('VOINA_I_MIR_STATS.txt')
 else:
