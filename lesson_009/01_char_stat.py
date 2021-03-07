@@ -83,7 +83,35 @@ class TextAnalyzer:
         print('|{txt: ^14}|'.format(txt='Итого'), '{txt: ^14}|'.format(txt=total_letters))
         print('+{txt:-^30}+'.format(txt='+'))
 
+    def write_to_file(self, out_file_name):
+        with open(out_file_name, 'w', encoding='utf-8') as file:
+            file.write('+{txt:-^30}+'.format(txt='+') + '\n')
+            file.write('|{txt: ^14}|'.format(txt='Буква') + '{txt: ^15}|'.format(txt='частота') + '\n')
+            file.write('+{txt:-^30}+'.format(txt='+') + '\n')
+            """тело таблицы, подставлены значения из списка"""
+            total_letters = 0
+            for i in self.sorted_result:
+                letter = i[1]
+                count = i[0]
+                total_letters += count
+                file.write('|{txt: ^14}|'.format(txt=letter) +
+                      '{txt: ^15}|'.format(txt=count) + '\n')
+                file.write('+{txt:-^30}+'.format(txt='+') + '\n')
+            """закрывающая часть таблицы и вывод общей суммы"""
+            file.write('+{txt:-^30}+'.format(txt='+') + '\n')
+            file.write('|{txt: ^15}|'.format(txt='Итого') + '{txt: ^14}|'.format(txt=total_letters) + '\n')
+            file.write('+{txt:-^30}+'.format(txt='+') + '\n')
+
+
 analyze = TextAnalyzer(file_name ='/Users/ant__on/PycharmProjects/learn/lesson_009/python_snippets/voyna-i-mir.txt.zip')
 analyze.analyze_text()
 analyze.sort_results()
-analyze.print_reult()
+
+user_choice = int(input("Нажмите '1' чтоб увидеть результат на экране, или "
+                    "нажмите '2' чтоб сохранить результат в файл"))
+if user_choice == 1:
+    analyze.print_reult()
+elif user_choice == 2:
+    analyze.write_to_file('VOINA_I_MIR_STATS.txt')
+else:
+    print('You made wrong choice!!!')
