@@ -20,7 +20,6 @@
 # Требования к коду: он должен быть готовым к расширению функциональности. Делать сразу на классах.
 
 
-
 # После выполнения первого этапа нужно сделать группировку событий
 #  - по часам
 #  - по месяцу
@@ -30,40 +29,47 @@ from pprint import pprint
 
 
 class LogParser:
+    minutes = 17
+    hours = 14
+    month = 8
+    year = 5
+    count_point = minutes
 
     def __init__(self, file_name):
         self.file_name = file_name
         self.result = {}
+        self.sorted_result = []
 
-        pass
 
     def read_file(self):
         with open(self.file_name, 'r', encoding='utf8') as file:
             for line in file:
-                minute = line[1:17]
+                minute = line[1:self.count_point]
                 if minute in self.result:
                     continue
                 else:
                     self.result[minute] = 0
 
-
-        # pprint(self.result)
-
     def analyze(self):
         with open(self.file_name, 'r', encoding='utf8') as file:
             for line in file:
-                minute = line[1:17]
+                minute = line[1:self.count_point]
                 if line.endswith('NOK\n'):
                     self.result[minute] += 1
 
-        pprint(self.result)
-
     def sort_result(self):
-        pass
+        for minute, count in self.result.items():
+            self.sorted_result.append([minute, count])
+        pprint(self.sorted_result)
 
     def print_result(self):
-        pass
+        with open('log_parser_result.txt', 'w') as file:
+            for minute, count in self.result.items():
+                file.write(f'[{minute}] {count}\n')
+
 
 lod_parser = LogParser('events.txt')
 lod_parser.read_file()
 lod_parser.analyze()
+lod_parser.sort_result()
+lod_parser.print_result()
