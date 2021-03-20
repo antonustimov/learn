@@ -76,6 +76,8 @@ class FileSorter:
         for file_path, file_date in self.sorted_file_path.items():
             year = self.sorted_file_path[file_path][0]
             month = self.sorted_file_path[file_path][1]
+            if month < 10:
+                month = '0' + str(month)
             self.sorted_file_path[file_path] = str(year) + '-' + str(month)
         pprint(self.sorted_file_path)
 
