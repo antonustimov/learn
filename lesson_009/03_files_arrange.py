@@ -44,8 +44,8 @@ from pprint import pprint
 
 class FileSorter:
 
-    def __init__(self, file_name):
-        self.file_name = file_name
+    def __init__(self, target_folder):
+        self.target_folder = target_folder
         self.sorted_file_path = {}
 
     def collect_file_path(self):
@@ -55,7 +55,7 @@ class FileSorter:
 
         count = 0
 
-        for dirpath, dirnames, filenames in os.walk(self.file_name):
+        for dirpath, dirnames, filenames in os.walk(self.target_folder):
             for file in filenames:
                 file_path = os.path.join(dirpath, file)
                 file_path_list.append(file_path)
@@ -64,8 +64,6 @@ class FileSorter:
                 if file.endswith('png'):
                     self.sorted_file_path[file] = None
 
-        # pprint(file_path_list)
-        print(count)
 
     def time_collect(self):
         for path, creation_time in self.sorted_file_path.items():
@@ -82,10 +80,20 @@ class FileSorter:
         pprint(self.sorted_file_path)
 
     def create_dirs(self, target_dir):
-        pass
+        """пробегает по словарю и для каждого файла пытается создать директорию, если она не существовала.
+        если директория уже есть - копирует тудаэтот файл"""
+        for file_path, file_date in self.sorted_file_path.items():
+            try:
+                os.makedirs(target_dir + file_date, 0o777)
+            except FileExistsError:
+                shutil.copy2(file_path, target_dir + file_date)
 
-sorter = FileSorter(file_name='icons')
+
+
+
+
+sorter = FileSorter(target_folder='icons')
 sorter.collect_file_path()
 sorter.time_collect()
 sorter.format_date()
-sorter.create_dirs(target_dir='sorted_icons')
+sorter.create_dirs(target_dir='sorted_icons/')
