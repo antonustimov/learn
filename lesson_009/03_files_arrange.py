@@ -71,9 +71,21 @@ class FileSorter:
         for path, creation_time in self.sorted_file_path.items():
             time_unformated = os.path.getmtime(path)
             self.sorted_file_path[path] = time.gmtime(time_unformated)
+
+
+
+    def format_date(self):
+        for file_path, file_date in self.sorted_file_path.items():
+            year = self.sorted_file_path[file_path][0]
+            month = self.sorted_file_path[file_path][1]
+            self.sorted_file_path[file_path] = str(year) + '-' + str(month)
         pprint(self.sorted_file_path)
 
+    def create_dirs(self, target_dir):
+        pass
 
-sorter = FileSorter('icons')
+sorter = FileSorter(file_name='icons')
 sorter.collect_file_path()
 sorter.time_collect()
+sorter.format_date()
+sorter.create_dirs(target_dir='sorted_icons')
