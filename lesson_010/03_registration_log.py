@@ -21,27 +21,66 @@
 # - поле емейл НЕ содержит @ и .(точку): NotEmailError (кастомное исключение)
 # - поле возраст НЕ является числом от 10 до 99: ValueError
 # Вызов метода обернуть в try-except.
+class NotEmailError(BaseException):
+    def __init__(self):
+        self.message = '-------->Email must contain "@" and "@"'
 
+    def __str__(self):
+        return self.message
 
+    def args(self):
+        return self.__str__()
+
+class NotNameError(Exception):
+    def __init__(self):
+        self.message = '-------->Name must contain only alphabetical symbols!!!'
+
+    def __str__(self):
+        return self.message
+
+    def args(self):
+        return self.__str__()
 
 def check_line(line, line_count):
     name, email, age = line.split(' ')
-    pass
+    if name.isalpha():
+        if '@' and '.' in email:
+            if 10 < int(age) < 100:
+                good_data(name, email, age)
+            else:
+                raise ValueError('-------->Wrong age!!!')
+        else:
+            raise NotEmailError
 
-def good_data():
-    with open('registrations_good.log', 'a', encoding='utf8'):
+    elif name:
+        raise NotNameError
+
+    else:
+        raise ValueError('-------->Not enought data!!!!')
+
+
+def good_data(name, email, age):
+    with open('registrations_good.log', 'a', encoding='utf8') as file:
         pass
 
 def bad_data(exc_args, line_count):
-    with open('registrations_bad.log', 'a', encoding='utf8'):
-        pass
+    with open('registrations_bad.log', 'a', encoding='utf8') as file:
+        file.write(f' in string {line_count} detected Execution {exc}')
+        file.write('\n')
 
 with open('registrations.txt', 'r', encoding='utf8') as init_file:
-    line_count = 1
+    line_count = 0
     for line in init_file:
         line = line[:-1]
         line_count += 1
         try:
             check_line(line, line_count)
-        except Exception as exc:
-            bad_data(exc.args, line_count)
+        except ValueError as exc:
+            bad_data(exc, line_count)
+        except NotEmailError as exc:
+            bad_data(exc, line_count)
+        except NotNameError as exc:
+            bad_data(exc, line_count)
+
+
+
