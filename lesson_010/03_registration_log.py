@@ -23,50 +23,45 @@
 # Вызов метода обернуть в try-except.
 class NotEmailError(BaseException):
     def __init__(self):
-        self.message = '-------->Email must contain "@" and "@"'
+        self.message = 'Email must contain "@" and "@"'
 
     def __str__(self):
         return self.message
 
-    def args(self):
-        return self.__str__()
 
 class NotNameError(Exception):
     def __init__(self):
-        self.message = '-------->Name must contain only alphabetical symbols!!!'
+        self.message = 'Name must contain only alphabetical symbols!!!'
 
     def __str__(self):
         return self.message
 
-    def args(self):
-        return self.__str__()
 
-def check_line(line, line_count):
+def check_line(line):
     name, email, age = line.split(' ')
     if name.isalpha():
         if '@' and '.' in email:
             if 10 < int(age) < 100:
                 good_data(name, email, age)
             else:
-                raise ValueError('-------->Wrong age!!!')
+                raise ValueError('Wrong age!!!')
         else:
             raise NotEmailError
 
-    elif name:
-        raise NotNameError
-
     else:
-        raise ValueError('-------->Not enought data!!!!')
+        raise NotNameError
 
 
 def good_data(name, email, age):
     with open('registrations_good.log', 'a', encoding='utf8') as file:
-        pass
+        file.write('{name: <10}{email: <25}{age: <2}\n'.format(name=name, email=email, age=age))
 
-def bad_data(exc_args, line_count):
+
+def bad_data(exc, line_count):
     with open('registrations_bad.log', 'a', encoding='utf8') as file:
-        file.write(f' in string {line_count} detected Execution {exc}')
+        file.write(f' in string {line_count} --------> {exc}')
         file.write('\n')
+
 
 with open('registrations.txt', 'r', encoding='utf8') as init_file:
     line_count = 0
@@ -74,7 +69,7 @@ with open('registrations.txt', 'r', encoding='utf8') as init_file:
         line = line[:-1]
         line_count += 1
         try:
-            check_line(line, line_count)
+            check_line(line)
         except ValueError as exc:
             bad_data(exc, line_count)
         except NotEmailError as exc:
@@ -83,4 +78,4 @@ with open('registrations.txt', 'r', encoding='utf8') as init_file:
             bad_data(exc, line_count)
 
 
-
+#TODO попробовать реализовать на классах
