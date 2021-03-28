@@ -1,3 +1,4 @@
+"""pig latin"""
 def input_and_check():
     """w8 and chek inputed word from user
     if input is correct - start convert"""

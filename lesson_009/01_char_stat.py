@@ -111,3 +111,4 @@ elif user_choice == 2:
     analyze.write_to_file('VOINA_I_MIR_STATS.txt')
 else:
     print('You made wrong choice!!!')
+

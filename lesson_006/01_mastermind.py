@@ -46,7 +46,7 @@ cprint('Компьтер загадал четырехзначное число,
        '\nчто и в задуманном числе', color='yellow')
 put_number()
 while True:
-    cprint('Введи четырехзнычное число', color='yellow')
+    cprint('Введи четырехзнычное число', color='cyan')
     user_input = input()
     answer = check_number(user_input=user_input)
     cprint('Быков - ' + str(answer['bulls']), color='green')

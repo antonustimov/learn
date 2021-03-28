@@ -1,29 +1,22 @@
 from pprint import pprint
 
+
 def my_dict(alphabet):
     """creates dict with keys - letters of alpha
     and values are 0 and returns it"""
     my_dict = {}
     for i in alphabet:
-        my_dict[i] = []
+        my_dict[i] = 0
     return my_dict
+
 
 def analyzer(text, dict_for_data):
     with open(text_for_analyze, 'r') as file:
         for line in file:
             for letter in line:
                 if letter in dict_for_data:
-                    dict_for_data[letter].append(letter)
+                    dict_for_data[letter] += 1
     return dict_for_data
-
-
-
-
-
-
-
-
-
 
 
 alphabet = 'abcdefghijklmnopqrstwvyz'
