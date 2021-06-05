@@ -43,6 +43,7 @@ class Player(pygame.sprite.Sprite):
         bullet = Bullet(self.rect.centerx, self.rect.top)
         all_sprites.add(bullet)
         bullets.add(bullet)
+        shoot_sound.play()
 
 
 class Mob(pygame.sprite.Sprite):
@@ -101,11 +102,22 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.y < 0:
             self.kill()
 
+
+
+def draw_text(surf, text, size, x, y):
+    font = pygame.font.Font(font_name, size)
+    text_surface = font.render(text, True, WHITE)
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surf.blit(text_surface, text_rect)
+
+
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("My Game")
 clock = pygame.time.Clock()
+font_name = pygame.font.match_font('arial')
 
 # графика
 img_dir = path.join(path.dirname(__file__), "img")
@@ -119,6 +131,14 @@ meteor_list = ["meteorBrown_big1.png", "meteorBrown_big2.png", "meteorBrown_big3
                "meteorBrown_tiny1.png", "meteorBrown_tiny2.png"]
 for img in meteor_list:
     meteor_images.append(pygame.image.load(path.join(img_dir, img)).convert())
+# звук
+sound_dir = path.join(path.dirname(__file__), "sound")
+shoot_sound = pygame.mixer.Sound(path.join(sound_dir, "pew.wav"))
+expl_sounds = []
+for snd in ["expl3.wav", "expl6.wav"]:
+    expl_sounds.append(pygame.mixer.Sound(path.join(sound_dir, snd)))
+pygame.mixer.music.load(path.join(sound_dir, "tgfcoder-FrozenJam-SeamlessLoop.mp3"))
+pygame.mixer.music.set_volume(0.3)
 
 # sprites
 all_sprites = pygame.sprite.Group()
@@ -131,7 +151,8 @@ for i in range(8):
     all_sprites.add(m)
     mobs.add(m)
 
-
+score = 0
+pygame.mixer.music.play(loops=-1)
 
 running = True
 while running:
@@ -152,6 +173,8 @@ while running:
     # проверка столкновения пули и моба
     hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
     for hit in hits:
+        score += 50 - hit.radius
+        random.choice(expl_sounds).play()
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
@@ -161,7 +184,10 @@ while running:
     screen.fill(BLACK)
     screen.blit(background, background_rect)
     all_sprites.draw(screen)
+    draw_text(screen, "SCORE: " + str(score), 18, WIDTH / 2, 10)
 
     pygame.display.flip()
 
 pygame.quit()
+
+
