@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 import random
 from os import path
@@ -20,6 +22,7 @@ pygame.display.set_caption("My Game")
 clock = pygame.time.Clock()
 
 font_name = pygame.font.match_font('arial', True)
+
 
 def draw_text(surf, text, size, x, y):
     font = pygame.font.Font(font_name, size)
@@ -50,6 +53,24 @@ def draw_lives(surf, x, y, lives, img):
         img_rect.x = x + 30 * i
         img_rect.y = y
         surf.blit(img, img_rect)
+
+def show_go_screen():
+    screen.blit(background, background_rect)
+    draw_text(screen, 'GAME OVER', 64, WIDTH / 2, HEIGHT / 4)
+    draw_text(screen, 'last score: {}'.format(score), 22, WIDTH / 2, HEIGHT / 2)
+    draw_text(screen, 'press any key to start', 15, WIDTH / 2, HEIGHT * 0.8)
+    pygame.display.flip()
+    waiting = True
+    while waiting:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYUP:
+                waiting = False
+
+
 
 
 class Player(pygame.sprite.Sprite):
@@ -272,10 +293,12 @@ expl_sounds = []
 for snd in ["expl3.wav", "expl6.wav"]:
     expl_sounds.append(pygame.mixer.Sound(path.join(sound_dir, snd)))
 player_expl_sound = pygame.mixer.Sound(path.join(sound_dir, "rumble1.wav"))
+shield_sound = pygame.mixer.Sound(path.join(sound_dir, 'Powerup3.wav'))
+gun_sound = pygame.mixer.Sound(path.join(sound_dir, 'Powerup2.wav'))
 pygame.mixer.music.load(path.join(sound_dir, "tgfcoder-FrozenJam-SeamlessLoop.mp3"))
 pygame.mixer.music.set_volume(0.4)
 
-# sprites
+
 all_sprites = pygame.sprite.Group()
 mobs = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
@@ -284,12 +307,30 @@ player = Player()
 all_sprites.add(player)
 for i in range(8):
     newmob()
-
 score = 0
 pygame.mixer.music.play(loops=-1)
 
+gameover = True
 running = True
 while running:
+    escape_state = pygame.key.get_pressed()
+    if escape_state[pygame.K_ESCAPE]:
+        running = False
+
+    if gameover:
+        show_go_screen()
+        gameover = False
+        # sprites
+        all_sprites = pygame.sprite.Group()
+        mobs = pygame.sprite.Group()
+        bullets = pygame.sprite.Group()
+        powerups = pygame.sprite.Group()
+        player = Player()
+        all_sprites.add(player)
+        for i in range(8):
+            newmob()
+        score = 0
+
     clock.tick(FPS)
 
     for event in pygame.event.get():
@@ -315,7 +356,7 @@ while running:
 
 
     if player.lives == 0 and not death_explosion.alive():
-        running = False
+        gameover = True
 
     # проверка столкновения пули и моба
     hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
@@ -334,10 +375,12 @@ while running:
     for hit in hits:
         if hit.type == 'shield':
             player.shield += random.randrange(10, 30)
+            shield_sound.play()
             if player.shield >= 100:
                 player.shield = 100
         if hit.type == 'gun':
             player.powerup()
+            gun_sound.play()
 
 
     # отрисовка
