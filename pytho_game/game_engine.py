@@ -11,6 +11,7 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+POWERUP_TIME = 5000
 
 pygame.init()
 pygame.mixer.init()
@@ -18,7 +19,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("My Game")
 clock = pygame.time.Clock()
 
-font_name = pygame.font.match_font('arial')
+font_name = pygame.font.match_font('arial', True)
 
 def draw_text(surf, text, size, x, y):
     font = pygame.font.Font(font_name, size)
@@ -69,12 +70,17 @@ class Player(pygame.sprite.Sprite):
         self.lives = 3
         self.hidden = False
         self.hide_timer = pygame.time.get_ticks()
+        self.power = 1
+        self.powerup_time = pygame.time.get_ticks()
 
     def update(self):
         if self.hidden and pygame.time.get_ticks() - self.hide_timer > 1000:
             self.hidden = False
             self.rect.centerx = WIDTH / 2
             self.rect.bottom = HEIGHT - 10
+        if self.power == 2 and pygame.time.get_ticks() - self.powerup_time > POWERUP_TIME:
+            self.power = 1
+            self.powerup_time = pygame.time.get_ticks()
 
         self.speedx = 0
         keystate = pygame.key.get_pressed()
@@ -96,10 +102,26 @@ class Player(pygame.sprite.Sprite):
         now = pygame.time.get_ticks()
         if now - self.last_shot > self.shoot_delay:
             self.last_shot = now
-            bullet = Bullet(self.rect.centerx, self.rect.top)
-            all_sprites.add(bullet)
-            bullets.add(bullet)
-            shoot_sound.play()
+            if self.power == 1:
+                bullet = Bullet(self.rect.centerx, self.rect.top)
+                all_sprites.add(bullet)
+                bullets.add(bullet)
+                shoot_sound.play()
+            elif self.power == 2:
+                bullet = Bullet(self.rect.centerx, self.rect.top)
+                bullet1 = Bullet(self.rect.left, self.rect.bottom)
+                bullet2 = Bullet(self.rect.right, self.rect.bottom)
+                all_sprites.add(bullet)
+                all_sprites.add(bullet1)
+                all_sprites.add(bullet2)
+                bullets.add(bullet)
+                bullets.add(bullet1)
+                bullets.add(bullet2)
+                shoot_sound.play()
+
+    def powerup(self):
+        self.power = 2
+        self.powerup_time = pygame.time.get_ticks()
 
     def hide(self):
         self.hidden = True
@@ -315,14 +337,14 @@ while running:
             if player.shield >= 100:
                 player.shield = 100
         if hit.type == 'gun':
-            pass
+            player.powerup()
 
 
     # отрисовка
     screen.fill(BLACK)
     screen.blit(background, background_rect)
     all_sprites.draw(screen)
-    draw_text(screen, "SCORE: " + str(score), 18, WIDTH / 2, 10)
+    draw_text(screen, str(score), 23, WIDTH / 2, 10)
     draw_shield_bar(screen, 5, 5, player.shield)
     draw_lives(screen, WIDTH - 100, 5, player.lives, player_mini_img)
 
