@@ -31,21 +31,24 @@ def draw_text(surf, text, size, x, y):
     text_rect.midtop = (x, y)
     surf.blit(text_surface, text_rect)
 
+
 def newmob():
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
 
+
 def draw_shield_bar(surf, x, y, ptc):
     if ptc < 0:
         ptc = 0
-    BAR_LENGTH = 100
-    BAR_HEIGHT = 10
-    fill = (ptc / 100) * BAR_LENGTH
-    outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
-    fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
+    bar_length = 100
+    bar_height = 10
+    fill = (ptc / 100) * bar_length
+    outline_rect = pygame.Rect(x, y, bar_length, bar_height)
+    fill_rect = pygame.Rect(x, y, fill, bar_height)
     pygame.draw.rect(surf, GREEN, fill_rect)
     pygame.draw.rect(surf, WHITE, outline_rect, 2)
+
 
 def draw_lives(surf, x, y, lives, img):
     for i in range(lives):
@@ -53,6 +56,7 @@ def draw_lives(surf, x, y, lives, img):
         img_rect.x = x + 30 * i
         img_rect.y = y
         surf.blit(img, img_rect)
+
 
 def show_go_screen():
     screen.blit(background, background_rect)
@@ -69,8 +73,6 @@ def show_go_screen():
                 sys.exit()
             if event.type == pygame.KEYUP:
                 waiting = False
-
-
 
 
 class Player(pygame.sprite.Sprite):
@@ -182,12 +184,11 @@ class Mob(pygame.sprite.Sprite):
         if now - self.last_update > 50:
             self.last_update = now
             self.rot = (self.rot + self.rot_speed) % 360
-            new_image = pygame.transform.rotate(self.image_orig, self.rot )
+            new_image = pygame.transform.rotate(self.image_orig, self.rot)
             old_center = self.rect.center
             self.image = new_image
             self.rect = self.image.get_rect()
             self.rect.center = old_center
-
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -205,6 +206,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.y += self.speedy
         if self.rect.y < 0:
             self.kill()
+
 
 class Explosion(pygame.sprite.Sprite):
     def __init__(self, center, size):
@@ -298,7 +300,6 @@ gun_sound = pygame.mixer.Sound(path.join(sound_dir, 'Powerup2.wav'))
 pygame.mixer.music.load(path.join(sound_dir, "tgfcoder-FrozenJam-SeamlessLoop.mp3"))
 pygame.mixer.music.set_volume(0.4)
 
-
 all_sprites = pygame.sprite.Group()
 mobs = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
@@ -337,7 +338,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-
     all_sprites.update()
     # проверка столкновения моба и игрока
     hits = pygame.sprite.spritecollide(player, mobs, True, pygame.sprite.collide_circle)
@@ -353,7 +353,6 @@ while running:
             player.hide()
             player.lives -= 1
             player.shield = 100
-
 
     if player.lives == 0 and not death_explosion.alive():
         gameover = True
@@ -382,7 +381,6 @@ while running:
             player.powerup()
             gun_sound.play()
 
-
     # отрисовка
     screen.fill(BLACK)
     screen.blit(background, background_rect)
@@ -394,5 +392,3 @@ while running:
     pygame.display.flip()
 
 pygame.quit()
-
-
