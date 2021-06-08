@@ -54,13 +54,14 @@ t = turtle.Turtle()
 t.hideturtle()
 
 pen_width = 2
-f_len = 10
-angle = 90
-axiom = "F+F+F+F"
+f_len = 5
+angle = 60
+axiom = "FXF--FF--FF"
 
 l_sys = LSystem2D(t, axiom, pen_width, f_len, angle)
 # l_sys.add_rules(("F", "F+F--F+F"))
 # l_sys.add_rules(("F", "F+FF-FF-F-F+F+FF-F-F+F+FF+FF-F"))
-l_sys.add_rules(("F", "F+S-FF+F+FF+FS+FF-S+FF-F-FF-FS-FFF"), ("S", "SSSSSS"))
-l_sys.generate_path(2)
-l_sys.draw_turtle((0, 0), 0)
+# l_sys.add_rules(("F", "F+S-FF+F+FF+FS+FF-S+FF-F-FF-FS-FFF"), ("S", "SSSSSS"))
+l_sys.add_rules(('F', "FF"), ("X", "--FXF++FXF++FXF--"))
+l_sys.generate_path(5)
+l_sys.draw_turtle((0, 0), 180)
